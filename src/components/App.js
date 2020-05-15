@@ -26,6 +26,17 @@ class App extends Component {
 
   componentDidMount() {
     this.setState({ isVisible: true, isFilter: true });
+    const storage = localStorage.getItem('contacts');
+    if (storage !== null) {
+      this.setState({ contacts: JSON.parse(storage) });
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { contacts } = this.state;
+    if (prevState.contacts !== contacts) {
+      localStorage.setItem('contacts', JSON.stringify(contacts));
+    }
   }
 
   filterContacts = (contacts, filter) => {
